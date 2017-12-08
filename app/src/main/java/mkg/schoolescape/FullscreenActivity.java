@@ -234,22 +234,22 @@ public class FullscreenActivity extends AppCompatActivity {
                     element = s.holeElement(i,j).holeTyp();
                     int id = getResources().getIdentifier("imageView" + i + j, "id", getPackageName());
                     ImageView iv = (ImageView) findViewById(id);
-                    if(element == "Wand") {
+                    if(element.equals("Wand")) {
                         iv.setImageResource(R.drawable.wand);
                         element = "W";
                     } else if (element.equals("Läufer")) {
                         iv.setImageResource(R.drawable.figur);
                         element = "L";
-                    } else if (element == "Schlüssel") {
+                    } else if (element.equals("Schlüssel")) {
                         iv.setImageResource(R.drawable.key_0);
                         element = "S";
-                    } else if (element == "Tür") {
+                    } else if (element.equals("Tür")) {
                         iv.setImageResource(R.drawable.door);
                         element = "D";
-                    } else if (element == "Tisch") {
+                    } else if (element.equals("Tisch")) {
                         iv.setImageResource(R.drawable.tisch);
                         element = "T";
-                    } else if (element == " ") {
+                    } else if (element.equals(" ")) {
                         iv.setImageResource(R.drawable.boden_0);
                         element = "";
                     }
@@ -320,28 +320,33 @@ public class FullscreenActivity extends AppCompatActivity {
             // Komplett frei
         } else {
             String typ = s.holeElement(newx,newy).holeTyp();
-            if(typ == "Wand") {
-                l.setzeLeben(l.holeLeben() - s.holeElement(newx,newy).holeObjekt().holeHaerte());
-                newx = x;
-                newy = y;
-                System.out.println("Wand im Weg! Leben: " + l.holeLeben());
-            } else if (typ == "Schlüssel") {
-                l.setzeSchlussel(l.holeSchlussel() + 1);
-            } else if (typ == "Tür") {
-                //System.out.print(s.holeElement(newx,newy).holeObjekt().holeHaerte());
-                if(s.holeElement(newx,newy).holeObjekt().holeHaerte() <= l.holeSchlussel()) {
-                    // Darf passieren
-                    tuererreicht = true;
-                    //System.out.println("Level Up!");
-                    levelnummer = levelnummer + 1;
-                    return;
-                } else {
+            switch (typ) {
+                case "Wand":
+                    l.setzeLeben(l.holeLeben() - s.holeElement(newx, newy).holeObjekt().holeHaerte());
                     newx = x;
                     newy = y;
-                }
-            } else if (typ == "Tisch") {
-                newx = x;
-                newy = y;
+                    System.out.println("Wand im Weg! Leben: " + l.holeLeben());
+                    break;
+                case "Schlüssel":
+                    l.setzeSchlussel(l.holeSchlussel() + 1);
+                    break;
+                case "Tür":
+                    //System.out.print(s.holeElement(newx,newy).holeObjekt().holeHaerte());
+                    if (s.holeElement(newx, newy).holeObjekt().holeHaerte() <= l.holeSchlussel()) {
+                        // Darf passieren
+                        tuererreicht = true;
+                        //System.out.println("Level Up!");
+                        levelnummer = levelnummer + 1;
+                        return;
+                    } else {
+                        newx = x;
+                        newy = y;
+                    }
+                    break;
+                case "Tisch":
+                    newx = x;
+                    newy = y;
+                    break;
             }
         }
         Block laufer = s.holeElement(x,y).holeObjekt();
@@ -356,7 +361,7 @@ public class FullscreenActivity extends AppCompatActivity {
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
                 if(s.holeElement(i,j) != null) {
-                    if(s.holeElement(i,j).holeTyp() == "Läufer") {
+                    if(s.holeElement(i,j).holeTyp().equals("Läufer")) {
                         xkoord = i;
                         ykoord = j;
                     }
@@ -387,7 +392,7 @@ public class FullscreenActivity extends AppCompatActivity {
             for(int i = 0; i < 10; i++) {
                 for(int j = 0; j < 10; j++) {
                     if(s.holeElement(i,j) != null) {
-                        if(s.holeElement(i,j).holeTyp() == "Lehrer") {
+                        if(s.holeElement(i,j).holeTyp().equals("Lehrer")) {
                             xkoord = i;
                             ykoord = j;
                         }
@@ -522,7 +527,6 @@ class BewegeTask extends AsyncTask<Zugdaten, Integer, Void> {
         @Override
         protected String doInBackground(String... urls) {
             leveldurchlauf();
-
             return "";
         }
 
