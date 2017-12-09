@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -231,32 +230,67 @@ public class FullscreenActivity extends AppCompatActivity {
                 if(s.holeElement(i,j) == null) {
                     element = " ";
                 } else {
-                    element = s.holeElement(i,j).holeTyp();
-                    int id = getResources().getIdentifier("imageView" + i + j, "id", getPackageName());
-                    ImageView iv = (ImageView) findViewById(id);
-                    if(element.equals("Wand")) {
-                        iv.setImageResource(R.drawable.wand);
-                        element = "W";
-                    } else if (element.equals("Läufer")) {
-                        iv.setImageResource(R.drawable.figur);
-                        element = "L";
-                    } else if (element.equals("Schlüssel")) {
-                        iv.setImageResource(R.drawable.key_0);
-                        element = "S";
-                    } else if (element.equals("Tür")) {
-                        iv.setImageResource(R.drawable.door);
-                        element = "D";
-                    } else if (element.equals("Tisch")) {
-                        iv.setImageResource(R.drawable.tisch);
-                        element = "T";
-                    } else if (element.equals(" ")) {
-                        iv.setImageResource(R.drawable.boden_0);
-                        element = "";
-                    }
+                    element = s.holeElement(i, j).holeTyp();
                 }
-                System.out.print(element);
+                int id = getResources().getIdentifier("imageView" + i + j, "id", getPackageName());
+                final ImageView iv = (ImageView) findViewById(id);
+                switch (element) {
+                    case "Wand":
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageResource(R.drawable.wand);
+                            }
+                        });
+                        element = "W";
+                        break;
+                    case "Läufer":
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageResource(R.drawable.figur);
+                            }
+                        });
+                        element = "L";
+                        break;
+                    case "Schlüssel":
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageResource(R.drawable.key_0);
+                            }
+                        });
+                        element = "S";
+                        break;
+                    case "Tür":
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageResource(R.drawable.door);
+                            }
+                        });
+                        element = "D";
+                        break;
+                    case "Tisch":
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageResource(R.drawable.tisch);
+                            }
+                        });
+                        element = "T";
+                        break;
+                    case " ":
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                iv.setImageResource(R.drawable.boden_0);
+                            }
+                        });
+                        element = " ";
+                        break;
+                }
             }
-            System.out.println();
         }
     }
 
@@ -405,134 +439,11 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
-
-/*
-// Innere Klasse HoleDatenTask führt den asynchronen Task auf eigenem Arbeitsthread aus
-class BewegeTask extends AsyncTask<Zugdaten, Integer, Void> {
-    FullscreenActivity activity;
-
-    public void setContext(FullscreenActivity activity) {
-        this.activity = activity;
-    }
-
-    @Override
-    protected Void doInBackground(Zugdaten... zugdatens) {
-        Zugdaten zugdaten = zugdatens[0];
-        char richtung = zugdaten.getRichtung();
-        Spielfeld s = zugdaten.getSpielfeld();
-        Laufer l = zugdaten.getLaufer();
-        int x = 0;
-        int y = 0;
-        int newx = 0;
-        int newy = 0;
-        if ((richtung == 'o') || (richtung == 'u') || (richtung == 'r') || (richtung == 'l')) {
-            // Richtung ist okay!
-        } else {
-            return null;
-        }
-        String koord = zugdaten.getKoordinaten();
-        x = Integer.parseInt(koord.substring(0, koord.indexOf(',')));
-        y = Integer.parseInt(koord.substring(koord.indexOf(',') + 1, koord.length()));
-        switch (richtung) {
-            case 'o':
-                newx = x - 1;
-                newy = y;
-                break;
-            case 'u':
-                newx = x + 1;
-                newy = y;
-                break;
-            case 'r':
-                newx = x;
-                newy = y + 1;
-                break;
-            case 'l':
-                newx = x;
-                newy = y - 1;
-                break;
-        }
-        // Um nicht aus dem Spielfeld zu laufen
-        if (newx > 9) {
-            newx = newx - 10;
-        }
-        if (newx < 0) {
-            newx = newx + 10;
-        }
-        if (newy > 9) {
-            newy = newy - 10;
-        }
-        if (newy < 0) {
-            newy = newy + 10;
-        }
-        /*System.out.print("Old:" + x + y + "\n");
-        System.out.print("New:" + newx + newy + "\n");
-        // ToDo: Check if Block im Weg
-        if (s.holeElement(newx, newy) == null) {
-            // Komplett frei
-        } else {
-            String typ = s.holeElement(newx, newy).holeTyp();
-            if (typ == "Wand") {
-                l.setzeLeben(l.holeLeben() - s.holeElement(newx, newy).holeObjekt().holeHaerte());
-                newx = x;
-                newy = y;
-                System.out.println("Wand im Weg! Leben: " + l.holeLeben());
-            } else if (typ == "Schlüssel") {
-                l.setzeSchlussel(l.holeSchlussel() + 1);
-            } else if (typ == "Tür") {
-                //System.out.print(s.holeElement(newx,newy).holeObjekt().holeHaerte());
-                if (s.holeElement(newx, newy).holeObjekt().holeHaerte() <= l.holeSchlussel()) {
-                    // Darf passieren
-                    activity.tuererreicht = true;
-                    //System.out.println("Level Up!");
-                    activity.levelnummer = activity.levelnummer + 1;
-                    return null;
-                } else {
-                    newx = x;
-                    newy = y;
-                }
-            } else if (typ == "Tisch") {
-                newx = x;
-                newy = y;
-            }
-        }
-        Log.d("koords", x + " , " + y);
-        Feld f = s.holeElement(x, y);
-        Block laufer = f.holeObjekt();
-        //Block laufer = s.holeElement(x,y).holeObjekt();
-        s.loescheElement(x, y);
-        s.setzeElement(newx, newy, "Laufer", laufer);
-
-
-        // Mit Thread.sleep(600) simulieren wir eine Wartezeit von 600 ms
-        try {
-            Thread.sleep(600);
-        } catch (Exception e) {
-            Log.e("Error", "Error ", e);
-        }
-        return null;
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-    }
-
-    @Override
-    protected void onPostExecute(Void strings) {
-        activity.getSpielfeld();
-    }
-
-    */
-
-    private class MacheZugTask extends AsyncTask<String, Void, String> {
+    private class MacheZugTask extends AsyncTask<String, Void, Void> {
         @Override
-        protected String doInBackground(String... urls) {
+        protected Void doInBackground(String... urls) {
             leveldurchlauf();
-            return "";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
+            return null;
         }
     }
 }
