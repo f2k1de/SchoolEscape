@@ -1,6 +1,7 @@
 package mkg.schoolescape;
 
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -23,27 +25,17 @@ public class FullscreenActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
 
     private View mContentView;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Setze Layout
         setContentView(R.layout.activity_fullscreen);
-
         mContentView = findViewById(R.id.fullscreen_content);
+        mediaPlayer = MediaPlayer.create(this, R.raw.bakercat);
+        mediaPlayer.start();
 
-
-        // Set up the user interaction to manually show or hide the system UI.
-        /*mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });*/
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
     }
 
     @Override
@@ -59,6 +51,12 @@ public class FullscreenActivity extends AppCompatActivity {
         while(l.holeLeben() > 1) {
             leveldurchlauf();
         }*/
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.pause();
     }
 
     /**
@@ -167,9 +165,23 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
         if(tuererreicht) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView leben = (TextView) findViewById(R.id.tvleben);
+                    leben.setText("Level up!");
+                }
+            });
             System.out.println("Levelup!");
             l.setzeSchlussel(0);
         } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView leben = (TextView) findViewById(R.id.tvleben);
+                    leben.setText("Game over!");
+                }
+            });
             System.out.println("Game over!");
         }
 
@@ -224,6 +236,13 @@ public class FullscreenActivity extends AppCompatActivity {
 
     public void getSpielfeld() {
         System.out.println("Leben " + l.holeLeben() + " Schlüssel " + l.holeSchlussel());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView leben = (TextView) findViewById(R.id.tvleben);
+                leben.setText("Leben: " + l.holeLeben());
+            }
+        });
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
                 String element;
@@ -292,6 +311,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             }
         }
+
     }
 
     private void macheZug() {
@@ -441,7 +461,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
     private class MacheZugTask extends AsyncTask<String, Void, Void> {
         @Override
-        protected Void doInBackground(String... urls) {
+        protected Void doInBackground(String... strings) {
             leveldurchlauf();
             return null;
         }
