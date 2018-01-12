@@ -24,6 +24,7 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
     <FrameLayout
+        android:id="@+id/MyLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -692,5 +693,26 @@
         android:fontFamily="casual"
         android:text="Leben: "
         android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Pause" />
+
+        <TextView
+            android:id="@+id/gameOver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </FrameLayout>
