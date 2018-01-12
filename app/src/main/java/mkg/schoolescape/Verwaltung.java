@@ -2,6 +2,7 @@ package mkg.schoolescape;
 
 import java.util.Scanner;
 import java.util.Random;
+
 public class Verwaltung {
     private Spielfeld s = new Spielfeld();
     private Laufer l = new Laufer();
@@ -131,7 +132,7 @@ public class Verwaltung {
     private void andereRichtung(char richtung) {
         l.setzeLaufrichtung(richtung);
     }
-    
+
     private void zieheLaufer(char richtung) {
         int x = 0;
         int y = 0;

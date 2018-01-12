@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.MotionEvent;
+
 
 import java.util.Random;
 
@@ -18,10 +23,15 @@ import java.util.Random;
  * status bar and navigation/system bar) with user interaction.
  */
 public class FullscreenActivity extends AppCompatActivity {
-     /**
+    /**
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
      */
+
+    private FrameLayout myLayout = null;
+    private float x1, x2;
+    private float y1, y2;
+
     private static final int UI_ANIMATION_DELAY = 300;
 
     private View mContentView;
@@ -36,7 +46,39 @@ public class FullscreenActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, R.raw.bakercat);
         mediaPlayer.start();
 
+
+        myLayout = (FrameLayout) findViewById(R.id.MyLayout);
+
+        myLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch( View v, MotionEvent event){
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        y1 = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        y2 = event.getY();
+                        break;
+                }
+
+                if(x1 < x2 && (Math.abs(x2-x1) > Math.abs(y1-y2))){
+                    l.setzeLaufrichtung('r');
+                }else if(x1 > x2 && (Math.abs(x1-x2) > Math.abs(y1-y2))){
+                    l.setzeLaufrichtung('l');
+                }else if(y1 < y2 && (Math.abs(y2-y1) > Math.abs(x1-x2))){
+                    l.setzeLaufrichtung('o');
+                }else if(y1 > y2 && (Math.abs(y1-y2) > Math.abs(x1-x2))){
+                    l.setzeLaufrichtung('u');
+                }
+                return true;
+            }
+        });
+
     }
+
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -145,21 +187,22 @@ public class FullscreenActivity extends AppCompatActivity {
     private void leveldurchlauf() {
         System.out.println("Level: " + levelnummer);
         initFeld();
-        andereRichtung('l');
+        //andereRichtung('l');
         tuererreicht = false;
+        getSpielfeld();
         while(l.holeLeben() > 1 && !tuererreicht) {
             macheZug();
             if(!tuererreicht) {
                 //Scanner scanner = new Scanner(System.in);
                 //String input = scanner.nextLine();
-                String input = "l";
+                String input = Character.toString(l.holeLaufrichtung());
                 if(!input.equals("")) {
                     char c = input.charAt(0);
                     andereRichtung(c);
                 }
             }
             try {
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -337,11 +380,11 @@ public class FullscreenActivity extends AppCompatActivity {
         x = Integer.parseInt(koord.substring(0,koord.indexOf(',')));
         y = Integer.parseInt(koord.substring(koord.indexOf(',')+1,koord.length()));
         switch(richtung) {
-            case 'o':
+            case 'u':
                 newx = x - 1;
                 newy = y;
                 break;
-            case 'u':
+            case 'o':
                 newx = x + 1;
                 newy = y;
                 break;
