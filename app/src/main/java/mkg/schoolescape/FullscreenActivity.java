@@ -1,20 +1,18 @@
 package mkg.schoolescape;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.MotionEvent;
-
 
 import java.util.Random;
 
@@ -43,9 +41,21 @@ public class FullscreenActivity extends AppCompatActivity {
         // Setze Layout
         setContentView(R.layout.activity_fullscreen);
         mContentView = findViewById(R.id.fullscreen_content);
-        mediaPlayer = MediaPlayer.create(this, R.raw.bakercat);
-        mediaPlayer.start();
 
+        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        String music = prefs.getString("music", null);
+        if(music == null) {
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString("music", "on");
+            edit.apply();
+            mediaPlayer = MediaPlayer.create(this, R.raw.bakercat);
+            mediaPlayer.start();
+        } else {
+            if(music.equals("on")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.bakercat);
+                mediaPlayer.start();
+            }
+        }
 
         myLayout = (FrameLayout) findViewById(R.id.MyLayout);
 

@@ -27,8 +27,8 @@ public class MenuActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.button2:
-                        //intent = new Intent(MenuActivity.this, FullscreenActivity.class);
-                        //startActivity(intent);
+                        intent = new Intent(MenuActivity.this, SettingsActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }
