@@ -29,6 +29,9 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    /** getStatus
+     * @return booloan Wert, ob Musik aktiviert
+     */
     private boolean getStatus() {
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         String music = prefs.getString("music", null);
@@ -39,6 +42,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /** musicon
+     * Schaltet Musik ein
+     */
     private void musicon() {
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -46,6 +52,9 @@ public class SettingsActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    /** musicoff
+     * Schaltet Musik aus
+     */
     private void musicoff() {
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

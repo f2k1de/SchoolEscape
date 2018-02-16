@@ -16,16 +16,12 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+/** FullscreenActivitz
+ * Dies ist die Hauptactivity des Spiels.
+ * Hier findet die ganze Spielelogik statt
  */
-public class FullscreenActivity extends AppCompatActivity {
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
 
+public class FullscreenActivity extends AppCompatActivity {
     private FrameLayout myLayout = null;
     private float x1, x2;
     private float y1, y2;
@@ -38,10 +34,12 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Setze Layout
         setContentView(R.layout.activity_fullscreen);
         mContentView = findViewById(R.id.fullscreen_content);
 
+        // Prüfe, ob Musik eingeschaltet ist
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         String music = prefs.getString("music", null);
         if(music == null) {
@@ -57,6 +55,7 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
 
+        // Steuerung
         myLayout = (FrameLayout) findViewById(R.id.MyLayout);
 
         myLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -85,18 +84,15 @@ public class FullscreenActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
-
-
+    /**
+     * Starte hier den Spieleablauf nach erstellen der Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
         delayedHide(100);
         levelnummer = 1;
         init();/*
@@ -105,6 +101,9 @@ public class FullscreenActivity extends AppCompatActivity {
         }*/
     }
 
+    /**
+     * Halte Musik an, wenn Pause, damit sie nicht im Hingrund weiterläuft
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -177,7 +176,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     /**
-     * Start of Verwaltung
+     * Start der Verwaltung
      */
     private Spielfeld s = new Spielfeld();
     private Laufer l = new Laufer();
@@ -240,6 +239,10 @@ public class FullscreenActivity extends AppCompatActivity {
 
     }
 
+    /** Leveldaten
+     * Hier werden die Leveldaten definiert.
+     * @param pLevelnummer - Levelnummer, für welches Level die Daten gesetzt werden sollen.
+     */
     private void leveldaten(int pLevelnummer) {
         switch (pLevelnummer) {
             case 1:
@@ -270,6 +273,9 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+    /** initFeld
+     * Räume das ganze Spielfeld frei und setze die Wandelemente.
+     */
     private void initFeld() {
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
@@ -287,13 +293,16 @@ public class FullscreenActivity extends AppCompatActivity {
         leveldaten(levelnummer);
     }
 
+    /** getSpielfeld
+     * Schreibt das Spielfeld von s auf die UI
+     */
     public void getSpielfeld() {
         System.out.println("Leben " + l.holeLeben() + " Schlüssel " + l.holeSchlussel());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 TextView leben = (TextView) findViewById(R.id.tvleben);
-                leben.setText("Leben: " + l.holeLeben());
+                leben.setText("Leben: " + l.holeLeben() + "\n" + "Schlüssel" + l.holeSchlussel());
             }
         });
         for(int i = 0; i < 10; i++) {
@@ -314,7 +323,6 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.wand);
                             }
                         });
-                        element = "W";
                         break;
                     case "Läufer":
                         runOnUiThread(new Runnable() {
@@ -323,7 +331,6 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.figur);
                             }
                         });
-                        element = "L";
                         break;
                     case "Schlüssel":
                         runOnUiThread(new Runnable() {
@@ -332,7 +339,6 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.key_0);
                             }
                         });
-                        element = "S";
                         break;
                     case "Tür":
                         runOnUiThread(new Runnable() {
@@ -341,7 +347,6 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.door);
                             }
                         });
-                        element = "D";
                         break;
                     case "Tisch":
                         runOnUiThread(new Runnable() {
@@ -350,7 +355,8 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.tisch);
                             }
                         });
-                        element = "T";
+                        switch (element = "T") {
+                        }
                         break;
                     case " ":
                         runOnUiThread(new Runnable() {
@@ -359,7 +365,6 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.boden_0);
                             }
                         });
-                        element = " ";
                         break;
                 }
             }
@@ -367,22 +372,34 @@ public class FullscreenActivity extends AppCompatActivity {
 
     }
 
+    /** macheZug
+     * Ziehe Läufer in die zuvor festgelegte Laufrichtung
+     */
     private void macheZug() {
         char laufrichtung = l.holeLaufrichtung();
         zieheLaufer(laufrichtung);
     }
 
+    /** andereRichtung
+     * Setze dem Läufer eine andere Laufrichutng
+     * @param richtung – char 'l', 'r', 'o', 'u'
+     */
     private void andereRichtung(char richtung) {
         l.setzeLaufrichtung(richtung);
     }
 
+    /** zieheLaufer
+     * Ziehe den Laufer in eine andere Richtung
+     * @param richtung – char 'l', 'r', 'o', 'u'
+     */
     private void zieheLaufer(char richtung) {
-        int x = 0;
-        int y = 0;
+        int x;
+        int y;
         int newx = 0;
         int newy = 0;
         if((richtung == 'o') || (richtung == 'u') || (richtung == 'r') || (richtung == 'l')) {
             // Richtung ist okay!
+            // ToDo: Fix!
         } else {
             return;
         }
@@ -462,6 +479,10 @@ public class FullscreenActivity extends AppCompatActivity {
         getSpielfeld();
     }
 
+    /** holeLauferKoordinaten
+     * gibt die Koordinaten des Läufers zurück
+     * @return String: "xkoord,ykoord"
+     */
     private String holeLauferKoordinaten() {
         int xkoord = -1;
         int ykoord = -1;
@@ -478,6 +499,10 @@ public class FullscreenActivity extends AppCompatActivity {
         return xkoord + "," + ykoord;
     }
 
+    /** randomLehrer
+     * Soll irgendwann mal zufällige Hindernisse erzeugen.
+     */
+    // Todo: Implement to use this function.
     private void randomLehrer() {
         Random rand = new Random();
 
@@ -512,6 +537,10 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+    /** MacheZugTask
+     * Dies ist ein AsyncTask, der den Leveldurchlauf im Hintergrund ausführt, um den Haupt-Thread
+     * nicht zu belagern
+     */
     private class MacheZugTask extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... strings) {
