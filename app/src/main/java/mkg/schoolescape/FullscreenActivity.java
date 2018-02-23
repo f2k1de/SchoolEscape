@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private FrameLayout myLayout = null;
     private float x1, x2;
     private float y1, y2;
+    private boolean AsyncTaskCancel = false;
 
     private static final int UI_ANIMATION_DELAY = 300;
 
@@ -55,7 +57,15 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
 
-        // Steuerung
+        Button btn = (Button) findViewById(R.id.pause);
+        btn.setOnClickListener(new View.OnClickListener() {
+                                      public void onClick(View v) {
+                                          AsyncTaskCancel = true;
+                                          // Code here executes on main thread after user presses button
+                                      }
+                                  });
+
+                                      // Steuerung
         myLayout = (FrameLayout) findViewById(R.id.MyLayout);
 
         myLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -95,10 +105,7 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         delayedHide(100);
         levelnummer = 1;
-        init();/*
-        while(l.holeLeben() > 1) {
-            leveldurchlauf();
-        }*/
+        init();
     }
 
     /**
@@ -107,7 +114,9 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mediaPlayer.pause();
+        if(mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
     }
 
     /**
@@ -194,6 +203,9 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     private void leveldurchlauf() {
+        if(AsyncTaskCancel) {
+            return;
+        }
         System.out.println("Level: " + levelnummer);
         initFeld();
         //andereRichtung('l');
@@ -232,6 +244,9 @@ public class FullscreenActivity extends AppCompatActivity {
                 public void run() {
                     TextView leben = (TextView) findViewById(R.id.tvleben);
                     leben.setText("Game over!");
+                    if(mediaPlayer != null) {
+                        mediaPlayer.pause();
+                    }
                 }
             });
             System.out.println("Game over!");
@@ -245,7 +260,7 @@ public class FullscreenActivity extends AppCompatActivity {
      */
     private void leveldaten(int pLevelnummer) {
         switch (pLevelnummer) {
-            case 1:
+            case 3:
                 s.setzeElement(8,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
@@ -262,6 +277,15 @@ public class FullscreenActivity extends AppCompatActivity {
                 s.setzeElement(6,2, "Tisch");
                 // ToDo: Add more Levels
                 break;
+            case 1:
+                s.setzeElement(8,5, "Laufer", l);
+                s.setzeElement(3,2, "Tür");
+                s.setzeElement(2,3, "Wand");
+                s.setzeElement(2,2, "Schlüssel");
+                s.setzeElement(8,7, "Wand");
+                s.setzeElement(8,2, "Tisch");
+                break;
+
             default:
                 s.setzeElement(8,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
@@ -302,7 +326,7 @@ public class FullscreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 TextView leben = (TextView) findViewById(R.id.tvleben);
-                leben.setText("Leben: " + l.holeLeben() + "\n" + "Schlüssel" + l.holeSchlussel());
+                leben.setText("Leben: " + l.holeLeben() + "\n" + "Schlüssel: " + l.holeSchlussel());
             }
         });
         for(int i = 0; i < 10; i++) {
@@ -437,8 +461,7 @@ public class FullscreenActivity extends AppCompatActivity {
         if(newy < 0) {
             newy = newy + 10;
         }
-        /*System.out.print("Old:" + x + y + "\n");
-        System.out.print("New:" + newx + newy + "\n");*/
+
         // ToDo: Check if Block im Weg
         if(s.holeElement(newx,newy) == null) {
             // Komplett frei
@@ -459,10 +482,12 @@ public class FullscreenActivity extends AppCompatActivity {
                     if (s.holeElement(newx, newy).holeObjekt().holeHaerte() <= l.holeSchlussel()) {
                         // Darf passieren
                         tuererreicht = true;
-                        //System.out.println("Level Up!");
                         levelnummer = levelnummer + 1;
+                        l.setzeSchlussel(0);
+                        leveldurchlauf();
                         return;
                     } else {
+                        // Bleibe vor Türe stehen
                         newx = x;
                         newy = y;
                     }
