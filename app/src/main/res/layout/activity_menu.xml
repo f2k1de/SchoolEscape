@@ -18,48 +18,50 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="250dp"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="180sp"
                 android:layout_height="wrap_content"
-                android:text="Spiel starten"
-                android:textSize="20sp"
-                android:layout_marginTop="350sp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10sp"
                 android:layout_marginRight="10sp"
                 android:background="@color/color2"
                 android:fontFamily="casual"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
+                android:text="Spiel starten"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button3"
-                android:layout_width="120sp"
+                android:layout_width="150sp"
                 android:layout_height="wrap_content"
-                android:text="High scores"
-                android:layout_marginTop="10sp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10sp"
                 android:layout_marginRight="10sp"
+                android:layout_marginTop="10sp"
                 android:background="@color/color2"
                 android:fontFamily="casual"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
+                android:text="High scores"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="150sp"
                 android:layout_height="wrap_content"
-                android:text="Einstellungen"
-                android:layout_marginTop="10sp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10sp"
                 android:layout_marginRight="10sp"
+                android:layout_marginTop="10sp"
                 android:background="@color/color2"
                 android:fontFamily="casual"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
+                android:text="Einstellungen"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
