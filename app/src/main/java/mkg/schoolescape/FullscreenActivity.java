@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
 import java.util.Random;
 
 /** FullscreenActivitz
@@ -27,6 +29,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private float x1, x2;
     private float y1, y2;
     private boolean AsyncTaskCancel = false;
+    private boolean resume = false;
 
     private static final int UI_ANIMATION_DELAY = 300;
 
@@ -60,12 +63,17 @@ public class FullscreenActivity extends AppCompatActivity {
         Button btn = (Button) findViewById(R.id.pause);
         btn.setOnClickListener(new View.OnClickListener() {
                                       public void onClick(View v) {
-                                          AsyncTaskCancel = true;
+                                          if(!AsyncTaskCancel) {
+                                              AsyncTaskCancel = true;
+                                          } else {
+                                              AsyncTaskCancel = false;
+                                              resume();
+                                          }
+                                          Log.d("Async", AsyncTaskCancel + "");
                                           // Code here executes on main thread after user presses button
                                       }
                                   });
-
-                                      // Steuerung
+        // Steuerung
         myLayout = (FrameLayout) findViewById(R.id.MyLayout);
 
         myLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -82,13 +90,13 @@ public class FullscreenActivity extends AppCompatActivity {
                         break;
                 }
 
-                if(x1 < x2 && (Math.abs(x2-x1) > Math.abs(y1-y2))){
+                if(x1 < x2 && (Math.abs(x2-x1) > Math.abs(y1-y2))) {
                     l.setzeLaufrichtung('r');
-                }else if(x1 > x2 && (Math.abs(x1-x2) > Math.abs(y1-y2))){
+                } else if(x1 > x2 && (Math.abs(x1-x2) > Math.abs(y1-y2))) {
                     l.setzeLaufrichtung('l');
-                }else if(y1 < y2 && (Math.abs(y2-y1) > Math.abs(x1-x2))){
+                } else if(y1 < y2 && (Math.abs(y2-y1) > Math.abs(x1-x2))) {
                     l.setzeLaufrichtung('o');
-                }else if(y1 > y2 && (Math.abs(y1-y2) > Math.abs(x1-x2))){
+                } else if(y1 > y2 && (Math.abs(y1-y2) > Math.abs(x1-x2))) {
                     l.setzeLaufrichtung('u');
                 }
                 return true;
@@ -117,6 +125,7 @@ public class FullscreenActivity extends AppCompatActivity {
         if(mediaPlayer != null) {
             mediaPlayer.pause();
         }
+        AsyncTaskCancel = true;
     }
 
     /**
@@ -183,7 +192,6 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-
     /**
      * Start der Verwaltung
      */
@@ -192,66 +200,79 @@ public class FullscreenActivity extends AppCompatActivity {
     boolean tuererreicht;
     int levelnummer;
 
+    private void resume() {
+        resume = true;
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
+        MacheZugTask macheZugTask = new MacheZugTask();
+        macheZugTask.execute(new String[] {});
+    }
     private void init() {
         levelnummer = 1;
-        //while(l.holeLeben() > 1) {
-            MacheZugTask macheZugTask = new MacheZugTask();
-            macheZugTask.execute(new String[] {});
-
-        //}
+        MacheZugTask macheZugTask = new MacheZugTask();
+        macheZugTask.execute(new String[] {});
     }
 
-
     private void leveldurchlauf() {
-        if(AsyncTaskCancel) {
-            return;
-        }
-        System.out.println("Level: " + levelnummer);
-        initFeld();
-        //andereRichtung('l');
-        tuererreicht = false;
-        getSpielfeld();
-        while(l.holeLeben() > 1 && !tuererreicht) {
-            macheZug();
-            if(!tuererreicht) {
-                //Scanner scanner = new Scanner(System.in);
-                //String input = scanner.nextLine();
-                String input = Character.toString(l.holeLaufrichtung());
-                if(!input.equals("")) {
-                    char c = input.charAt(0);
-                    andereRichtung(c);
-                }
+            System.out.println("Level: " + levelnummer);
+            if(!resume) {
+                initFeld();
+            } else {
+                resume = false;
             }
-            try {
-                Thread.sleep(500);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        if(tuererreicht) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView leben = (TextView) findViewById(R.id.tvleben);
-                    leben.setText("Level up!");
-                }
-            });
-            System.out.println("Levelup!");
-            l.setzeSchlussel(0);
-        } else {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView leben = (TextView) findViewById(R.id.tvleben);
-                    leben.setText("Game over!");
-                    if(mediaPlayer != null) {
-                        mediaPlayer.pause();
+            //andereRichtung('l');
+            tuererreicht = false;
+            getSpielfeld();
+            while (l.holeLeben() > 1 && !tuererreicht && !AsyncTaskCancel) {
+                macheZug();
+                if (!tuererreicht) {
+                    String input = Character.toString(l.holeLaufrichtung());
+                    if (!input.equals("")) {
+                        char c = input.charAt(0);
+                        andereRichtung(c);
                     }
                 }
-            });
-            System.out.println("Game over!");
-        }
-
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            if (tuererreicht) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView leben = (TextView) findViewById(R.id.tvleben);
+                        leben.setText("Level up!");
+                    }
+                });
+                l.setzeSchlussel(0);
+            } else if(AsyncTaskCancel) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView leben = (TextView) findViewById(R.id.tvleben);
+                        leben.setText("Pause");
+                        if (mediaPlayer != null) {
+                            mediaPlayer.pause();
+                        }
+                        Button pause = (Button) findViewById(R.id.pause);
+                        pause.setText("Start");
+                    }
+                });
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView leben = (TextView) findViewById(R.id.tvleben);
+                        leben.setText("Game over!");
+                        if (mediaPlayer != null) {
+                            mediaPlayer.pause();
+                        }
+                    }
+                });
+            }
     }
 
     /** Leveldaten
@@ -326,7 +347,7 @@ public class FullscreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 TextView leben = (TextView) findViewById(R.id.tvleben);
-                leben.setText("Leben: " + l.holeLeben() + "\n" + "Schlüssel: " + l.holeSchlussel());
+                leben.setText(MessageFormat.format("Leben: {0}\nSchlüssel: {1}", l.holeLeben(), l.holeSchlussel()));
             }
         });
         for(int i = 0; i < 10; i++) {
@@ -393,7 +414,6 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     /** macheZug
