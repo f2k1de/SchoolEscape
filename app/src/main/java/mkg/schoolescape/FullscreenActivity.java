@@ -112,7 +112,6 @@ public class FullscreenActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         delayedHide(100);
-        levelnummer = 1;
         init();
     }
 
@@ -281,39 +280,68 @@ public class FullscreenActivity extends AppCompatActivity {
      */
     private void leveldaten(int pLevelnummer) {
         switch (pLevelnummer) {
-            case 3:
+            case 1:
                 s.setzeElement(8,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
                 s.setzeElement(4,2, "Schlüssel");
                 s.setzeElement(5,2, "Wand");
                 s.setzeElement(6,2, "Tisch");
+                s.setzeElement(8,7,"Wand");
+                s.setzeElement(7,7,"Wand");
+                s.setzeElement(6,7,"Wand");
+                s.setzeElement(5,7,"Wand");
+                s.setzeElement(4,7,"Wand");
+                s.setzeElement(3,7,"Wand");
+                s.setzeElement(2,7,"Wand");
+                s.setzeElement(2,6,"Wand");
                 break;
             case 2:
-                s.setzeElement(8,5, "Laufer", l);
+                s.setzeElement(5,5, "Laufer", l);
                 s.setzeElement(5,2, "Tür");
                 s.setzeElement(5,3, "Wand");
                 s.setzeElement(2,2, "Schlüssel");
                 s.setzeElement(4,7, "Wand");
                 s.setzeElement(6,2, "Tisch");
-                // ToDo: Add more Levels
                 break;
-            case 1:
-                s.setzeElement(8,5, "Laufer", l);
+            case 3:
+                s.setzeElement(5,5, "Laufer", l);
                 s.setzeElement(3,2, "Tür");
                 s.setzeElement(2,3, "Wand");
+                s.setzeElement(2,5, "Wand");
+                s.setzeElement(2,6, "Wand");
+                s.setzeElement(2,7, "Wand");
                 s.setzeElement(2,2, "Schlüssel");
                 s.setzeElement(8,7, "Wand");
                 s.setzeElement(8,2, "Tisch");
                 break;
-
+            case 4:
+                s.setzeElement(5,5,"Laufer", l);
+                s.setzeElement(8,1, "Tür");
+                s.setzeElement(8,2, "Schlüssel");
+                s.setzeElement(7,1, "Schlüssel");
+                s.setzeElement(7,2, "Tisch");
+                s.setzeElement(6,2, "Tisch");
+                s.setzeElement(4,1, "Tisch");
+                s.setzeElement(4,2, "Tisch");
+                s.setzeElement(4,3, "Tisch");
+                s.setzeElement(4,4, "Tisch");
+                s.setzeElement(4,5, "Tisch");
+                s.setzeElement(4,6, "Tisch");
+                s.setzeElement(4,7, "Tisch");
+                s.setzeElement(4,8, "Tisch");
+                s.setzeElement(5,7, "Tisch");
+                s.setzeElement(6,7, "Tisch");
+                s.setzeElement(7,7, "Tisch");
+                s.setzeElement(8,7, "Tisch");
+                break;
+            // ToDo: Add more Levels
             default:
-                s.setzeElement(8,5, "Laufer", l);
+                s.setzeElement(5,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
                 s.setzeElement(4,2, "Schlüssel");
                 s.setzeElement(5,2, "Wand");
-                s.setzeElement(6,2, "Tisch");
                 break;
         }
     }
@@ -342,7 +370,6 @@ public class FullscreenActivity extends AppCompatActivity {
      * Schreibt das Spielfeld von s auf die UI
      */
     public void getSpielfeld() {
-        System.out.println("Leben " + l.holeLeben() + " Schlüssel " + l.holeSchlussel());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -498,7 +525,6 @@ public class FullscreenActivity extends AppCompatActivity {
                     l.setzeSchlussel(l.holeSchlussel() + 1);
                     break;
                 case "Tür":
-                    //System.out.print(s.holeElement(newx,newy).holeObjekt().holeHaerte());
                     if (s.holeElement(newx, newy).holeObjekt().holeHaerte() <= l.holeSchlussel()) {
                         // Darf passieren
                         tuererreicht = true;
