@@ -465,14 +465,15 @@ public class FullscreenActivity extends AppCompatActivity {
      * @param richtung – char 'l', 'r', 'o', 'u'
      */
 
-    ImageView herz6 = (ImageView) findViewById(R.id.herz6);
-    ImageView herz5 = (ImageView) findViewById(R.id.herz5);
-    ImageView herz4 = (ImageView) findViewById(R.id.herz4);
-    ImageView herz3 = (ImageView) findViewById(R.id.herz3);
-    ImageView herz2 = (ImageView) findViewById(R.id.herz2);
-    ImageView herz1 = (ImageView) findViewById(R.id.herz1);
+
 
     private void zieheLaufer(char richtung) {
+        ImageView herz6 = (ImageView) findViewById(R.id.herz6);
+        ImageView herz5 = (ImageView) findViewById(R.id.herz5);
+        ImageView herz4 = (ImageView) findViewById(R.id.herz4);
+        ImageView herz3 = (ImageView) findViewById(R.id.herz3);
+        ImageView herz2 = (ImageView) findViewById(R.id.herz2);
+        ImageView herz1 = (ImageView) findViewById(R.id.herz1);
         int x;
         int y;
         int newx = 0;
@@ -529,19 +530,12 @@ public class FullscreenActivity extends AppCompatActivity {
                     newx = x;
                     newy = y;
                     System.out.println("Wand im Weg! Leben: " + l.holeLeben());
-                        if(herz6.getVisibility() == View.VISIBLE){
-                            herz6.setVisibility(View.INVISIBLE);
-                        }else if(herz5.getVisibility() == View.VISIBLE) {
-                            herz5.setVisibility(View.INVISIBLE);
-                        }else if(herz4.getVisibility() == View.VISIBLE){
-                            herz4.setVisibility(View.INVISIBLE);
-                        }else if(herz3.getVisibility() == View.VISIBLE) {
-                            herz3.setVisibility(View.INVISIBLE);
-                        }else if(herz2.getVisibility() == View.VISIBLE) {
-                            herz2.setVisibility(View.INVISIBLE);
-                        }else if(herz1.getVisibility() == View.VISIBLE) {
-                            herz1.setVisibility(View.INVISIBLE);
-                        }
+
+                    for(int i = 6; i > l.holeLeben(); i--) {
+                        int id = getResources().getIdentifier("herz" + i, "id", getPackageName());
+                        ImageView imageView = (ImageView) findViewById(id);
+                        imageView.setVisibility(View.INVISIBLE);
+                    }
                     break;
                 case "Schlüssel":
                     l.setzeSchlussel(l.holeSchlussel() + 1);
