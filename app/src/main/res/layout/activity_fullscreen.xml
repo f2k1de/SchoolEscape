@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@color/color1"
     tools:context="mkg.schoolescape.FullscreenActivity"
-    android:id="@+id/MyLayout">
+    >
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -17,7 +17,7 @@
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
+        android:textColor="@color/color1"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -688,11 +688,17 @@
 
     <TextView
         android:id="@+id/tvleben"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fontFamily="casual"
         android:text="Leben: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/color5"
+        android:layout_marginStart="9sp"
+        android:layout_marginTop="5sp"
+        android:textStyle="bold"
+        android:textSize="45sp"
+        android:layout_gravity="top"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -703,15 +709,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Pause" />
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/color2"
+            android:fontFamily="casual"
+            android:onClick="buttonOnClick"
+            android:text="Pause"
+            android:textColor="@color/color1"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/gameOver"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_weight="3"
+            android:fontFamily="casual"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/color6"
             android:visibility="gone" />
     </RelativeLayout>
 
