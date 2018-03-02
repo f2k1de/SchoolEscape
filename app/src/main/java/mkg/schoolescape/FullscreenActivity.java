@@ -468,12 +468,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     private void zieheLaufer(char richtung) {
-        ImageView herz6 = (ImageView) findViewById(R.id.herz6);
-        ImageView herz5 = (ImageView) findViewById(R.id.herz5);
-        ImageView herz4 = (ImageView) findViewById(R.id.herz4);
-        ImageView herz3 = (ImageView) findViewById(R.id.herz3);
-        ImageView herz2 = (ImageView) findViewById(R.id.herz2);
-        ImageView herz1 = (ImageView) findViewById(R.id.herz1);
         int x;
         int y;
         int newx = 0;
