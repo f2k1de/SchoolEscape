@@ -4,12 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="color1">#66E5F5</color>
+    <color name="color1">#63a1e2</color>
     <color name="color2">#FFEF87</color>
-    <color name="color3">#0B686D</color>
+    <color name="color3">#000000</color>
     <color name="color4">#59676F</color>
-    <color name="color5">#C76B71</color>
-    <color name="color6">#00000000</color>
+    <color name="color5">#002ab6</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

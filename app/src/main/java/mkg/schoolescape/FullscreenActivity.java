@@ -2,6 +2,7 @@ package mkg.schoolescape;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -463,6 +464,14 @@ public class FullscreenActivity extends AppCompatActivity {
      * Ziehe den Laufer in eine andere Richtung
      * @param richtung – char 'l', 'r', 'o', 'u'
      */
+
+    ImageView herz6 = (ImageView) findViewById(R.id.herz6);
+    ImageView herz5 = (ImageView) findViewById(R.id.herz5);
+    ImageView herz4 = (ImageView) findViewById(R.id.herz4);
+    ImageView herz3 = (ImageView) findViewById(R.id.herz3);
+    ImageView herz2 = (ImageView) findViewById(R.id.herz2);
+    ImageView herz1 = (ImageView) findViewById(R.id.herz1);
+
     private void zieheLaufer(char richtung) {
         int x;
         int y;
@@ -520,6 +529,19 @@ public class FullscreenActivity extends AppCompatActivity {
                     newx = x;
                     newy = y;
                     System.out.println("Wand im Weg! Leben: " + l.holeLeben());
+                        if(herz6.getVisibility() == View.VISIBLE){
+                            herz6.setVisibility(View.INVISIBLE);
+                        }else if(herz5.getVisibility() == View.VISIBLE) {
+                            herz5.setVisibility(View.INVISIBLE);
+                        }else if(herz4.getVisibility() == View.VISIBLE){
+                            herz4.setVisibility(View.INVISIBLE);
+                        }else if(herz3.getVisibility() == View.VISIBLE) {
+                            herz3.setVisibility(View.INVISIBLE);
+                        }else if(herz2.getVisibility() == View.VISIBLE) {
+                            herz2.setVisibility(View.INVISIBLE);
+                        }else if(herz1.getVisibility() == View.VISIBLE) {
+                            herz1.setVisibility(View.INVISIBLE);
+                        }
                     break;
                 case "Schlüssel":
                     l.setzeSchlussel(l.holeSchlussel() + 1);
