@@ -685,21 +685,6 @@
         </TableLayout>
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/tvleben"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="casual"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/color3"
-        android:layout_marginLeft="10sp"
-        android:layout_marginTop="5sp"
-        android:textStyle="bold"
-        android:textSize="45sp"
-        android:layout_gravity="top"/>
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -713,7 +698,7 @@
             android:layout_marginLeft="10sp">
 
             <ImageView
-                android:id="@+id/herz1"
+                android:id="@+id/herz"
                 android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:background="@drawable/heart"/>
@@ -723,36 +708,63 @@
                 android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:background="@drawable/heart"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginLeft="5sp"
+                android:layout_marginStart="5sp" />
 
             <ImageView
                 android:id="@+id/herz3"
                 android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:background="@drawable/heart"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginLeft="5sp"
+                android:layout_marginStart="5sp" />
 
             <ImageView
                 android:id="@+id/herz4"
                 android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:background="@drawable/heart"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginLeft="5sp"
+                android:layout_marginStart="5sp" />
 
             <ImageView
                 android:id="@+id/herz5"
                 android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:background="@drawable/heart"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginLeft="5sp"
+                android:layout_marginStart="5sp" />
 
             <ImageView
                 android:id="@+id/herz6"
                 android:layout_width="25sp"
                 android:layout_height="25sp"
                 android:background="@drawable/heart"
-                android:layout_marginLeft="5sp"/>
+                android:layout_marginLeft="5sp"
+                android:layout_marginStart="5sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginStart="10sp">
+
+            <ImageView
+                android:id="@+id/key1"
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:background="@drawable/key_0"
+                android:contentDescription="@string/heart" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25sp"
+                android:id="@+id/keynumber" />
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/pause"
@@ -780,6 +792,16 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/color3"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvleben"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:gravity="center_vertical|center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </FrameLayout>

@@ -63,17 +63,18 @@ public class FullscreenActivity extends AppCompatActivity {
 
         Button btn = (Button) findViewById(R.id.pause);
         btn.setOnClickListener(new View.OnClickListener() {
-                                      public void onClick(View v) {
-                                          if(!AsyncTaskCancel) {
-                                              AsyncTaskCancel = true;
-                                          } else {
-                                              AsyncTaskCancel = false;
-                                              resume();
-                                          }
-                                          Log.d("Async", AsyncTaskCancel + "");
-                                          // Code here executes on main thread after user presses button
-                                      }
-                                  });
+            public void onClick(View v) {
+                if(!AsyncTaskCancel) {
+                  AsyncTaskCancel = true;
+                } else {
+                  TextView pause = (TextView) findViewById(R.id.tvleben);
+                  pause.setVisibility(View.INVISIBLE);
+                  AsyncTaskCancel = false;
+                  resume();
+                }
+                Log.d("Async", AsyncTaskCancel + "");
+                }
+            });
         // Steuerung
         myLayout = (FrameLayout) findViewById(R.id.MyLayout);
 
@@ -133,7 +134,6 @@ public class FullscreenActivity extends AppCompatActivity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-
     private void hide() {
         // Hide UI first
         ActionBar actionBar = getSupportActionBar();
@@ -206,12 +206,12 @@ public class FullscreenActivity extends AppCompatActivity {
             mediaPlayer.start();
         }
         MacheZugTask macheZugTask = new MacheZugTask();
-        macheZugTask.execute(new String[] {});
+        macheZugTask.execute();
     }
     private void init() {
         levelnummer = 1;
         MacheZugTask macheZugTask = new MacheZugTask();
-        macheZugTask.execute(new String[] {});
+        macheZugTask.execute();
     }
 
     private void leveldurchlauf() {
@@ -240,25 +240,19 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             }
             if (tuererreicht) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView leben = (TextView) findViewById(R.id.tvleben);
-                        leben.setText("Level up!");
-                    }
-                });
                 l.setzeSchlussel(0);
             } else if(AsyncTaskCancel) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         TextView leben = (TextView) findViewById(R.id.tvleben);
-                        leben.setText("Pause");
+                        leben.setVisibility(View.VISIBLE);
+                        leben.setText(R.string.pause);
                         if (mediaPlayer != null) {
                             mediaPlayer.pause();
                         }
                         Button pause = (Button) findViewById(R.id.pause);
-                        pause.setText("Start");
+                        pause.setText(R.string.start);
                     }
                 });
             } else {
@@ -266,7 +260,8 @@ public class FullscreenActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TextView leben = (TextView) findViewById(R.id.tvleben);
-                        leben.setText("Game over!");
+                        leben.setVisibility(View.VISIBLE);
+                        leben.setText(R.string.gameover);
                         if (mediaPlayer != null) {
                             mediaPlayer.pause();
                         }
@@ -374,8 +369,8 @@ public class FullscreenActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView leben = (TextView) findViewById(R.id.tvleben);
-                leben.setText(MessageFormat.format("Leben: {0}\nSchlüssel: {1}", l.holeLeben(), l.holeSchlussel()));
+                TextView leben = (TextView) findViewById(R.id.keynumber);
+                leben.setText("" + l.holeSchlussel());
             }
         });
         for(int i = 0; i < 10; i++) {
@@ -428,8 +423,6 @@ public class FullscreenActivity extends AppCompatActivity {
                                 iv.setImageResource(R.drawable.tisch);
                             }
                         });
-                        switch (element = "T") {
-                        }
                         break;
                     case " ":
                         runOnUiThread(new Runnable() {
@@ -468,6 +461,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     private void zieheLaufer(char richtung) {
+        randomKey();
         int x;
         int y;
         int newx = 0;
@@ -525,11 +519,17 @@ public class FullscreenActivity extends AppCompatActivity {
                     newy = y;
                     System.out.println("Wand im Weg! Leben: " + l.holeLeben());
 
-                    for(int i = 6; i > l.holeLeben(); i--) {
-                        int id = getResources().getIdentifier("herz" + i, "id", getPackageName());
-                        ImageView imageView = (ImageView) findViewById(id);
-                        imageView.setVisibility(View.INVISIBLE);
-                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for(int i = 6; i > l.holeLeben(); i--) {
+                                int id = getResources().getIdentifier("herz" + i, "id", getPackageName());
+                                ImageView imageView = (ImageView) findViewById(id);
+                                imageView.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                    });
+
                     break;
                 case "Schlüssel":
                     l.setzeSchlussel(l.holeSchlussel() + 1);
@@ -584,36 +584,17 @@ public class FullscreenActivity extends AppCompatActivity {
      * Soll irgendwann mal zufällige Hindernisse erzeugen.
      */
     // Todo: Implement to use this function.
-    private void randomLehrer() {
-        Random rand = new Random();
+    private void randomKey() {
+        int random = (int) (Math.random() * 100);
 
-        int zufallszahl = 0; // = rand.integer();
-        // Zufallszahlen generiern
-        if(zufallszahl == 37) {
-            int zufallx =4;
-            int zufally = 4;
+        if((random % 5) == 0) {
+            int zufallx = (int) (Math.random() * 10);
+            int zufally = (int) (Math.random() * 10);
 
             if(s.holeElement(zufallx,zufally) == null) {
                 // Komplett frei
-                s.setzeElement(zufallx,zufally, "Lehrer");
+                s.setzeElement(zufallx,zufally, "Schlüssel");
                 // Setze Lehrer
-            }
-
-        } else if(zufallszahl == 38) {
-            int xkoord = 0;
-            int ykoord = 0;
-            for(int i = 0; i < 10; i++) {
-                for(int j = 0; j < 10; j++) {
-                    if(s.holeElement(i,j) != null) {
-                        if(s.holeElement(i,j).holeTyp().equals("Lehrer")) {
-                            xkoord = i;
-                            ykoord = j;
-                        }
-                    }
-                }
-            }
-            if((xkoord != 0) && (ykoord != 0)) {
-                s.loescheElement(xkoord,ykoord);
             }
         }
     }
