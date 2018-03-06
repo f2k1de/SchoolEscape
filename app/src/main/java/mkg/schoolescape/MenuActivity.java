@@ -30,6 +30,10 @@ public class MenuActivity extends AppCompatActivity {
                         intent = new Intent(MenuActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.button3:
+                        intent = new Intent(MenuActivity.this, HighscoreActivity.class);
+                        startActivity(intent);
+                        break;
                 }
             }
         };

@@ -1,6 +1,7 @@
 package mkg.schoolescape;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -533,6 +534,23 @@ public class FullscreenActivity extends AppCompatActivity {
                     break;
                 case "Schlüssel":
                     l.setzeSchlussel(l.holeSchlussel() + 1);
+                    SharedPreferences pref = getSharedPreferences("score", Context.MODE_PRIVATE);
+
+                    // We need an editor object to make changes
+                    SharedPreferences.Editor edit = pref.edit();
+
+                    int score;
+                    String oldscore = pref.getString("score", null);
+                    if(oldscore != null) {
+                        score = Integer.parseInt(oldscore) + l.holeSchlussel();
+                    } else {
+                        score = l.holeSchlussel();
+                    }
+                    // Set/Store data
+                    edit.putString("score", String.valueOf(score));
+
+                    // Commit the changes
+                    edit.apply();
                     break;
                 case "Tür":
                     if (s.holeElement(newx, newy).holeObjekt().holeHaerte() <= l.holeSchlussel()) {
