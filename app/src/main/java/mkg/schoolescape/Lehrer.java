@@ -6,6 +6,7 @@ public class Lehrer extends Block {
     // Funktionen
     public Lehrer() {
         super.setzeTyp("Lehrer");
+        haerte = 0;
     }
     
 }

@@ -1,10 +1,5 @@
 package mkg.schoolescape;
-/**
- * Write a description of class Laufer here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+
 public class Laufer extends Block
 {
     private int leben;

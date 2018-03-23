@@ -1,10 +1,6 @@
 package mkg.schoolescape;
 public class Spielfeld {
-     Feld[][] feld = new Feld[10][10]; 
-    
-     public void Spielfeld() {
-         
-     }
+     Feld[][] feld = new Feld[10][10];
      
      public void setzeElement(int x, int y, String typ) {
          feld[x][y] = new Feld();
@@ -24,7 +20,7 @@ public class Spielfeld {
              case "Tisch": 
                 feld[x][y].setzeObjekt(new Tisch());
                 break;
-             case "Lehrer": 
+             case "Lehrer":
                 feld[x][y].setzeObjekt(new Lehrer());
                 break;                  
         }

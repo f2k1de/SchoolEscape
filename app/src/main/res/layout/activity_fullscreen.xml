@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@color/color1"
     tools:context="mkg.schoolescape.FullscreenActivity"
     >
@@ -14,11 +14,7 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:textColor="@color/color1"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:keepScreenOn="true" />
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
@@ -687,8 +683,8 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -754,15 +750,19 @@
 
             <ImageView
                 android:id="@+id/key1"
-                android:layout_width="25sp"
-                android:layout_height="25sp"
-                android:background="@drawable/key_0"
+                android:layout_width="35sp"
+                android:layout_height="35sp"
+                android:background="@drawable/key_1"
                 android:contentDescription="@string/heart" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="25sp"
-                android:id="@+id/keynumber" />
+                android:layout_height="30sp"
+                android:textStyle="bold"
+                android:fontFamily="casual"
+                android:id="@+id/keynumber"
+                android:layout_marginLeft="10sp"
+                android:textSize="17sp"/>
         </LinearLayout>
 
 

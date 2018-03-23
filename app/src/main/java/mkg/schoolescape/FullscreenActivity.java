@@ -81,7 +81,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         myLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch( View v, MotionEvent event){
+            public boolean onTouch(View v, MotionEvent event){
                 switch(event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         x1 = event.getX();
