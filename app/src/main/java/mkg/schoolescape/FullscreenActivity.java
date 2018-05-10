@@ -3,7 +3,6 @@ package mkg.schoolescape;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,16 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.MessageFormat;
-import java.util.Random;
-
 /** FullscreenActivitz
  * Dies ist die Hauptactivity des Spiels.
  * Hier findet die ganze Spielelogik statt
  */
 
 public class FullscreenActivity extends AppCompatActivity {
-    private FrameLayout myLayout = null;
     private float x1, x2;
     private float y1, y2;
     private boolean AsyncTaskCancel = false;
@@ -36,7 +31,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
 
     private View mContentView;
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +57,13 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
 
-        Button btn = (Button) findViewById(R.id.pause);
+        Button btn = findViewById(R.id.pause);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!AsyncTaskCancel) {
                   AsyncTaskCancel = true;
                 } else {
-                  TextView pause = (TextView) findViewById(R.id.tvleben);
+                  TextView pause = findViewById(R.id.tvleben);
                   pause.setVisibility(View.INVISIBLE);
                   AsyncTaskCancel = false;
                   resume();
@@ -77,7 +72,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             });
         // Steuerung
-        myLayout = (FrameLayout) findViewById(R.id.MyLayout);
+        FrameLayout myLayout = findViewById(R.id.MyLayout);
 
         myLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -114,7 +109,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        delayedHide(100);
+        delayedHide();
         init();
     }
 
@@ -188,18 +183,18 @@ public class FullscreenActivity extends AppCompatActivity {
      * Schedules a call to hide() in [delay] milliseconds, canceling any
      * previously scheduled calls.
      */
-    private void delayedHide(int delayMillis) {
+    private void delayedHide() {
         mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+        mHideHandler.postDelayed(mHideRunnable, 100);
     }
 
     /**
      * Start der Verwaltung
      */
-    private Spielfeld s = new Spielfeld();
-    private Laufer l = new Laufer();
-    boolean tuererreicht;
-    int levelnummer;
+    private final Spielfeld s = new Spielfeld();
+    private final Laufer l = new Laufer();
+    private boolean tuererreicht;
+    private int levelnummer;
 
     private void resume() {
         resume = true;
@@ -246,13 +241,13 @@ public class FullscreenActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView leben = (TextView) findViewById(R.id.tvleben);
+                        TextView leben = findViewById(R.id.tvleben);
                         leben.setVisibility(View.VISIBLE);
                         leben.setText(R.string.pause);
                         if (mediaPlayer != null) {
                             mediaPlayer.pause();
                         }
-                        Button pause = (Button) findViewById(R.id.pause);
+                        Button pause = findViewById(R.id.pause);
                         pause.setText(R.string.start);
                     }
                 });
@@ -260,7 +255,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView leben = (TextView) findViewById(R.id.tvleben);
+                        TextView leben = findViewById(R.id.tvleben);
                         leben.setVisibility(View.VISIBLE);
                         leben.setText(R.string.gameover);
                         if (mediaPlayer != null) {
@@ -366,11 +361,11 @@ public class FullscreenActivity extends AppCompatActivity {
     /** getSpielfeld
      * Schreibt das Spielfeld von s auf die UI
      */
-    public void getSpielfeld() {
+    private void getSpielfeld() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView leben = (TextView) findViewById(R.id.keynumber);
+                TextView leben = findViewById(R.id.keynumber);
                 leben.setText("" + l.holeSchlussel());
             }
         });
@@ -383,7 +378,7 @@ public class FullscreenActivity extends AppCompatActivity {
                     element = s.holeElement(i, j).holeTyp();
                 }
                 int id = getResources().getIdentifier("imageView" + i + j, "id", getPackageName());
-                final ImageView iv = (ImageView) findViewById(id);
+                final ImageView iv = findViewById(id);
                 switch (element) {
                     case "Wand":
                         runOnUiThread(new Runnable() {
@@ -525,7 +520,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         public void run() {
                             for(int i = 6; i > l.holeLeben(); i--) {
                                 int id = getResources().getIdentifier("herz" + i, "id", getPackageName());
-                                ImageView imageView = (ImageView) findViewById(id);
+                                ImageView imageView = findViewById(id);
                                 imageView.setVisibility(View.INVISIBLE);
                             }
                         }

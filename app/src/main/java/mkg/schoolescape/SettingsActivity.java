@@ -12,7 +12,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
         if(getStatus()) {
             toggleButton.setChecked(true);
         } else {
@@ -35,11 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean getStatus() {
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         String music = prefs.getString("music", null);
-        if(music == null) {
-            return false;
-        } else {
-            return music.equals("on");
-        }
+        return music != null && music.equals("on");
     }
 
     /** musicon

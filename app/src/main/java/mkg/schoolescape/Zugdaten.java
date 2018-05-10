@@ -5,10 +5,10 @@ package mkg.schoolescape;
  */
 
 class Zugdaten {
-    private Laufer l;
-    private Spielfeld s;
-    private char richtung;
-    private String koordinaten;
+    private final Laufer l;
+    private final Spielfeld s;
+    private final char richtung;
+    private final String koordinaten;
     Zugdaten(Laufer pL, Spielfeld pS, char pRichtung, String pKoord) {
         l = pL;
         s = pS;

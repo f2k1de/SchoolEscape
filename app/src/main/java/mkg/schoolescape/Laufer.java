@@ -1,6 +1,6 @@
 package mkg.schoolescape;
 
-public class Laufer extends Block
+class Laufer extends Block
 {
     private int leben;
     private char laufrichtung;

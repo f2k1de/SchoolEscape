@@ -7,18 +7,18 @@ package mkg.schoolescape;
  * @version (a version number or a date)
  */
 public class Block {
-    String typ;
-    int haerte;
-    public Block() {
+    private String typ;
+    private int haerte;
+    Block() {
         // initialise instance variables
         haerte = 0;
     }
     
-    public void setzeTyp(String ptyp) {
+    void setzeTyp(String ptyp) {
      typ = ptyp;
     }
     
-    public void setzeHaerte(int hart) {
+    void setzeHaerte(int hart) {
         haerte = hart;
     }
     

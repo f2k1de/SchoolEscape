@@ -1,12 +1,10 @@
 package mkg.schoolescape;
-public class Lehrer extends Block {
-    // Variabeln
-    public int haerte;
+class Lehrer extends Block {
     public boolean block;
     // Funktionen
     public Lehrer() {
         super.setzeTyp("Lehrer");
-        haerte = 0;
+        int haerte = 0;
     }
     
 }

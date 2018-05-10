@@ -17,7 +17,7 @@ public class MenuActivity extends AppCompatActivity {
         findViewById(R.id.button3).setOnClickListener(onClickListenerMenu);
     }
 
-    private View.OnClickListener onClickListenerMenu = new View.OnClickListener() {
+    private final View.OnClickListener onClickListenerMenu = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;

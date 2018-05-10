@@ -6,7 +6,7 @@ package mkg.schoolescape;
 
 public class Feld {
 //    String typ;
-    Block block;
+private Block block;
     public void setzeObjekt(Block pTyp) {
         block = pTyp;
         //f.blockeKoordinaten(this);

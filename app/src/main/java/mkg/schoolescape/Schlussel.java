@@ -1,5 +1,5 @@
 package mkg.schoolescape;
-public class Schlussel extends Block {
+class Schlussel extends Block {
     // Variabeln
     // Funktionen
     public Schlussel() {

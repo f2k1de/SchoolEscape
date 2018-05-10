@@ -3,9 +3,9 @@ package mkg.schoolescape;
 import java.util.Scanner;
 import java.util.Random;
 
-public class Verwaltung {
-    private Spielfeld s = new Spielfeld();
-    private Laufer l = new Laufer();
+class Verwaltung {
+    private final Spielfeld s = new Spielfeld();
+    private final Laufer l = new Laufer();
     private boolean tuererreicht;
     private int levelnummer;
     
@@ -13,7 +13,7 @@ public class Verwaltung {
      * Konstruktor und Einstiegpunkt des ganzen Spieles
      * Legt erste Levelnummer fest und läuft die Level durch, bis keine Leben mehr da sind.
      */
-    public Verwaltung() {
+    private Verwaltung() {
         levelnummer = 1;
         while(l.holeLeben() > 1) {
             leveldurchlauf();
@@ -25,9 +25,9 @@ public class Verwaltung {
         initFeld();
         andereRichtung('l');
         tuererreicht = false;
-        while(l.holeLeben() > 1 && tuererreicht == false) {
+        while(l.holeLeben() > 1 && !tuererreicht) {
             macheZug();
-            if(tuererreicht == false) {
+            if(!tuererreicht) {
                 Scanner scanner = new Scanner(System.in);
                 String input = scanner.nextLine();
                 if(!input.equals("")) {
@@ -41,7 +41,7 @@ public class Verwaltung {
                 Thread.currentThread().interrupt();
             }*/
         }
-        if(tuererreicht == true) {
+        if(tuererreicht) {
             System.out.println("Levelup!");
             l.setzeSchlussel(0);
         } else {
@@ -97,7 +97,7 @@ public class Verwaltung {
         leveldaten(levelnummer);
     }
     
-    public void getSpielfeld() {
+    private void getSpielfeld() {
         System.out.println("Leben " + l.holeLeben() + " Schlüssel " + l.holeSchlussel());
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
@@ -134,8 +134,8 @@ public class Verwaltung {
     }
 
     private void zieheLaufer(char richtung) {
-        int x = 0;
-        int y = 0;
+        int x;
+        int y;
         int newx = 0;
         int newy = 0;
         if((richtung == 'o') || (richtung == 'u') || (richtung == 'r') || (richtung == 'l')) {

@@ -21,7 +21,7 @@ public class HighscoreActivity extends AppCompatActivity {
         } else {
             score = "0";
         }
-        TextView textView = (TextView) findViewById(R.id.myscore);
+        TextView textView = findViewById(R.id.myscore);
         textView.setText(String.format("Mein Highscore: %s", score));
     }
 }

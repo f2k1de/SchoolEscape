@@ -1,12 +1,11 @@
 package mkg.schoolescape;
 public class Wand extends Block {
     // Variabeln
-    public int haerte;
-    public boolean block;
+    private final int haerte;
+
     // Funktionen
     public Wand(int pHaerte, boolean pBlock) {
         haerte = pHaerte;
-        block = pBlock;
         super.setzeTyp("Wand");
         super.setzeHaerte(haerte);
     }
