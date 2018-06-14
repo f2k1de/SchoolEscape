@@ -1,9 +1,7 @@
 package mkg.schoolescape;
-class Tisch extends Block {
-    // Variabeln
-    public int haerte;
+public class Tisch extends Block {
     public boolean block;
-    // Funktionen
+
     public Tisch() {
         super.setzeTyp("Tisch");
     }

@@ -53,7 +53,7 @@ class Verwaltung {
     private void leveldaten(int pLevelnummer) {
         switch (pLevelnummer) {
             case 1: 
-                s.setzeElement(8,5, "Laufer", l);
+                s.setzeLaufer(8,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
                 s.setzeElement(4,2, "Schlüssel");
@@ -61,7 +61,7 @@ class Verwaltung {
                 s.setzeElement(6,2, "Tisch");
                 break;
             case 2:
-                s.setzeElement(8,5, "Laufer", l);
+                s.setzeLaufer(8,5, "Laufer", l);
                 s.setzeElement(5,2, "Tür");
                 s.setzeElement(5,3, "Wand");
                 s.setzeElement(2,2, "Schlüssel");
@@ -70,7 +70,7 @@ class Verwaltung {
                 // ToDo: Add more Levels
                 break;
             default: 
-                s.setzeElement(8,5, "Laufer", l);
+                s.setzeLaufer(8,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
                 s.setzeElement(4,2, "Schlüssel");
@@ -210,7 +210,7 @@ class Verwaltung {
         }
         Block laufer = s.holeElement(x,y).holeObjekt();
         s.loescheElement(x, y);
-        s.setzeElement(newx, newy, "Laufer", laufer);
+        s.setzeLaufer(newx, newy, "Laufer", laufer);
         getSpielfeld();
     }
     

@@ -1,32 +1,24 @@
 package mkg.schoolescape;
 
-/**
- * Write a description of class Block here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
 public class Block {
-    private String typ;
-    private int haerte;
-    Block() {
-        // initialise instance variables
+    String typ;
+    int haerte;
+
+    public Block() {
         haerte = 0;
     }
-    
-    void setzeTyp(String ptyp) {
-     typ = ptyp;
+
+    // get-/set-methoden
+    public void setzeTyp(String pTyp) {
+     typ = pTyp;
     }
-    
-    void setzeHaerte(int hart) {
-        haerte = hart;
-    }
-    
-    public int holeHaerte() {
-        return haerte;   
-    }
-    
     public String holeTyp() {
         return typ;
+    }
+    public void setzeHaerte(int phaerte) {
+        haerte = phaerte;
+    }
+    public int holeHaerte() {
+        return haerte;   
     }
 }

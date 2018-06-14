@@ -1,15 +1,8 @@
 package mkg.schoolescape;
-class Tuer extends Block {
-    // Variabeln
-    private final int schlussel;
-    // Funktionen
-    public Tuer(int pschlussel) {
+public class Tuer extends Block {
+
+    public Tuer() { //Konstruktor
         super.setzeTyp("Tür");
         super.setzeHaerte(1);
-        schlussel = pschlussel;
-    }
-    
-    public int holeAnzahlSchlussel() {
-        return schlussel;
     }
 }

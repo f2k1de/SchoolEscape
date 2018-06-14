@@ -3,6 +3,7 @@ package mkg.schoolescape;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,12 +18,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/** FullscreenActivitz
+import java.text.MessageFormat;
+import java.util.Random;
+
+/** FullscreenActivity
  * Dies ist die Hauptactivity des Spiels.
  * Hier findet die ganze Spielelogik statt
  */
 
 public class FullscreenActivity extends AppCompatActivity {
+    private FrameLayout myLayout = null;
     private float x1, x2;
     private float y1, y2;
     private boolean AsyncTaskCancel = false;
@@ -31,7 +36,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
 
     private View mContentView;
-    private MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +62,13 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
 
-        Button btn = findViewById(R.id.pause);
+        Button btn = (Button) findViewById(R.id.pause);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!AsyncTaskCancel) {
                   AsyncTaskCancel = true;
                 } else {
-                  TextView pause = findViewById(R.id.tvleben);
+                  TextView pause = (TextView) findViewById(R.id.tvleben);
                   pause.setVisibility(View.INVISIBLE);
                   AsyncTaskCancel = false;
                   resume();
@@ -72,7 +77,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             });
         // Steuerung
-        FrameLayout myLayout = findViewById(R.id.MyLayout);
+        myLayout = (FrameLayout) findViewById(R.id.MyLayout);
 
         myLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -109,7 +114,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        delayedHide();
+        delayedHide(100);
         init();
     }
 
@@ -183,18 +188,18 @@ public class FullscreenActivity extends AppCompatActivity {
      * Schedules a call to hide() in [delay] milliseconds, canceling any
      * previously scheduled calls.
      */
-    private void delayedHide() {
+    private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, 100);
+        mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
     /**
      * Start der Verwaltung
      */
-    private final Spielfeld s = new Spielfeld();
-    private final Laufer l = new Laufer();
-    private boolean tuererreicht;
-    private int levelnummer;
+    private Spielfeld s = new Spielfeld();
+    private Laufer l = new Laufer();
+    boolean tuererreicht;
+    int levelnummer;
 
     private void resume() {
         resume = true;
@@ -241,13 +246,13 @@ public class FullscreenActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView leben = findViewById(R.id.tvleben);
+                        TextView leben = (TextView) findViewById(R.id.tvleben);
                         leben.setVisibility(View.VISIBLE);
                         leben.setText(R.string.pause);
                         if (mediaPlayer != null) {
                             mediaPlayer.pause();
                         }
-                        Button pause = findViewById(R.id.pause);
+                        Button pause = (Button) findViewById(R.id.pause);
                         pause.setText(R.string.start);
                     }
                 });
@@ -255,7 +260,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView leben = findViewById(R.id.tvleben);
+                        TextView leben = (TextView) findViewById(R.id.tvleben);
                         leben.setVisibility(View.VISIBLE);
                         leben.setText(R.string.gameover);
                         if (mediaPlayer != null) {
@@ -273,7 +278,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private void leveldaten(int pLevelnummer) {
         switch (pLevelnummer) {
             case 1:
-                s.setzeElement(8,5, "Laufer", l);
+                s.setzeLaufer(8,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
                 s.setzeElement(4,2, "Schlüssel");
@@ -289,7 +294,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 s.setzeElement(2,6,"Wand");
                 break;
             case 2:
-                s.setzeElement(5,5, "Laufer", l);
+                s.setzeLaufer(5,5, "Laufer", l);
                 s.setzeElement(5,2, "Tür");
                 s.setzeElement(5,3, "Wand");
                 s.setzeElement(2,2, "Schlüssel");
@@ -297,7 +302,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 s.setzeElement(6,2, "Tisch");
                 break;
             case 3:
-                s.setzeElement(5,5, "Laufer", l);
+                s.setzeLaufer(5,5, "Laufer", l);
                 s.setzeElement(3,2, "Tür");
                 s.setzeElement(2,3, "Wand");
                 s.setzeElement(2,5, "Wand");
@@ -308,7 +313,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 s.setzeElement(8,2, "Tisch");
                 break;
             case 4:
-                s.setzeElement(5,5,"Laufer", l);
+                s.setzeLaufer(5,5,"Laufer", l);
                 s.setzeElement(8,1, "Tür");
                 s.setzeElement(8,2, "Schlüssel");
                 s.setzeElement(7,1, "Schlüssel");
@@ -329,7 +334,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 break;
             // ToDo: Add more Levels
             default:
-                s.setzeElement(5,5, "Laufer", l);
+                s.setzeLaufer(5,5, "Laufer", l);
                 s.setzeElement(2,2, "Tür");
                 s.setzeElement(3,2, "Wand");
                 s.setzeElement(4,2, "Schlüssel");
@@ -361,11 +366,11 @@ public class FullscreenActivity extends AppCompatActivity {
     /** getSpielfeld
      * Schreibt das Spielfeld von s auf die UI
      */
-    private void getSpielfeld() {
+    public void getSpielfeld() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView leben = findViewById(R.id.keynumber);
+                TextView leben = (TextView) findViewById(R.id.keynumber);
                 leben.setText("" + l.holeSchlussel());
             }
         });
@@ -378,7 +383,7 @@ public class FullscreenActivity extends AppCompatActivity {
                     element = s.holeElement(i, j).holeTyp();
                 }
                 int id = getResources().getIdentifier("imageView" + i + j, "id", getPackageName());
-                final ImageView iv = findViewById(id);
+                final ImageView iv = (ImageView) findViewById(id);
                 switch (element) {
                     case "Wand":
                         runOnUiThread(new Runnable() {
@@ -454,8 +459,6 @@ public class FullscreenActivity extends AppCompatActivity {
      * @param richtung – char 'l', 'r', 'o', 'u'
      */
 
-
-
     private void zieheLaufer(char richtung) {
         randomKey();
         int x;
@@ -520,7 +523,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         public void run() {
                             for(int i = 6; i > l.holeLeben(); i--) {
                                 int id = getResources().getIdentifier("herz" + i, "id", getPackageName());
-                                ImageView imageView = findViewById(id);
+                                ImageView imageView = (ImageView) findViewById(id);
                                 imageView.setVisibility(View.INVISIBLE);
                             }
                         }
@@ -569,7 +572,7 @@ public class FullscreenActivity extends AppCompatActivity {
         }
         Block laufer = s.holeElement(x,y).holeObjekt();
         s.loescheElement(x, y);
-        s.setzeElement(newx, newy, "Laufer", laufer);
+        s.setzeLaufer(newx, newy, "Laufer", laufer);
         getSpielfeld();
     }
 

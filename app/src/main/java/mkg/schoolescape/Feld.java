@@ -1,23 +1,16 @@
 package mkg.schoolescape;
-
-/**
- * Created by freddy on 13.10.17.
- */
-
 public class Feld {
-//    String typ;
-private Block block;
-    public void setzeObjekt(Block pTyp) {
-        block = pTyp;
-        //f.blockeKoordinaten(this);
+    Block enthaltenerBlock;
 
+    public void setzeEnthaltenenBlock(Block pBlock) {     //setzt ein im Parameter überliefertes Objekt der Klasse Block in die Eigenschaft 'enthaltenerblock'
+        enthaltenerBlock = pBlock;
     }
-    
+
     public Block holeObjekt() {
-        return block;
+        return enthaltenerBlock;
     }
-    
-    public String holeTyp() {
-     return block.holeTyp();   
+
+    public String holeTyp() {                   //holt den Typ des Objektes in der Eigenschaft 'enthaltenerblock'
+        return enthaltenerBlock.holeTyp();
     }
 }

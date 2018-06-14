@@ -5,16 +5,16 @@ class Laufer extends Block
     private int leben;
     private char laufrichtung;
     private int schlussel;
+
     public Laufer() {
         super.setzeTyp("Läufer");
         setzeLeben(6);
         setzeSchlussel(0);
     }
-   
+
     public void setzeLeben(int pLeben) {
         leben = pLeben;
     }
-    
     public int holeLeben() {
         return leben;
     }
@@ -22,15 +22,13 @@ class Laufer extends Block
     public void setzeSchlussel(int pSchlussel) {
         schlussel = pSchlussel;
     }
-    
     public int holeSchlussel() {
         return schlussel;
     }
     
-    public void setzeLaufrichtung(char pLr) {
-        laufrichtung = pLr;
+    public void setzeLaufrichtung(char pLaufrichtung) {
+        laufrichtung = pLaufrichtung;
     }
-    
     public char holeLaufrichtung() {
         return laufrichtung;
     }
